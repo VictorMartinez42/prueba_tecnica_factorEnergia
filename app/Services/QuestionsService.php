@@ -7,21 +7,15 @@ use App\Models\ApiResult;
 class QuestionsService
 {
     public static function checkIfExistsInDB($inputs) {
-        $checkResult = ApiResult::where('tagged', $inputs['tagged']);
+        $toDate = (isset($inputs['todate']))? $inputs['todate']: null;
+        $fromDate = (isset($inputs['fromdate']))? $inputs['fromdate']: null;
 
-        if(isset($inputs['todate'])) {
-            $checkResult->where('todate', $inputs['todate']);
-        } else {
-            $checkResult->where('todate', NULL);
-        }
+        $checkResult = ApiResult::where('tagged', $inputs['tagged'])
+            ->where('todate', $toDate)
+            ->where('fromdate', $fromDate)
+            ->first();
 
-        if(isset($inputs['fromdate'])) {
-            $checkResult->where('fromdate', $inputs['fromdate']);
-        } else {
-            $checkResult->where('fromdate', NULL);
-        }
-
-        return $checkResult->first();
+        return $checkResult;
     }
 
     public static function saveApiResults($inputs, $json) {

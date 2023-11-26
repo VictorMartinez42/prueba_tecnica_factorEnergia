@@ -7,7 +7,7 @@ use App\Services\QuestionsService;
 
 class StackExchangeService
 {
-    public static function getURL() {
+    private static function getURL() {
         $url = env('STACKEXCHANGE_API_URL').'questions?site=stackoverflow';
         return $url;
     }
